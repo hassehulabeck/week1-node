@@ -1,3 +1,3 @@
-var modul = require('./print-module.js/index.js')
+var modul = require('./print-module.js')
 
 console.log(modul)
