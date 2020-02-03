@@ -5,6 +5,7 @@ fs.mkdir("temp", (err) => {
     if (err) {
         if (err.errno = -4075)
             console.log("Katalogen finns redan")
+    } else {
         fs.open("temp/input.txt", "a", (err) => {
             if (err) {
                 console.error(err)
@@ -17,7 +18,6 @@ fs.mkdir("temp", (err) => {
             } else
                 console.log("Filen output.txt skapades.")
         })
-    } else {
         console.log("Din katalog skapades utan större problem.")
     }
 })
