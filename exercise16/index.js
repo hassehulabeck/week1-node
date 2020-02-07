@@ -1,6 +1,7 @@
 const http = require('http')
 const fs = require('fs')
 const url = require('url')
+let returStr = ""
 
 /* Inte fullt fungerande, pga inte tänkt färdigt.
 Det som strular är funktionen getData() som inte ger mig vad jag har tänkt mig.
@@ -13,10 +14,12 @@ http.createServer((req, res) => {
     if (userRequest.path.includes('login')) {
         // Skapa fil om den inte finns.
         userExists(userRequest.path)
-        res.end("Loggat in")
+        res.write("<html><h1>Loggat in")
         book("Login", userRequest.path)
-        let o = getData(userRequest.path)
-        console.log(o)
+        getData(userRequest.path)
+        // console.log(returStr)
+        res.write(returStr)
+        res.end()
     }
 
     if (userRequest.path.includes('logout')) {
@@ -65,7 +68,6 @@ function book(action, path) {
 
 function getData(path) {
     let username = extractUserName(path)
-    let returStr = ""
 
     fs.readFile(__dirname + "/" + username + ".log", (err, data) => {
         if (err)
@@ -73,15 +75,16 @@ function getData(path) {
         else {
             data = data.toString('utf-8')
             logStrings = data.split("Z") // Använd Z i ISOstring-formatet, då det är sista tecknet i varje rad.
+            // Egentligen ingen bra lösning, eftersom split nu tar bort bokstaven Z, och det är väl inte helt önskvärt...
 
             logStrings.forEach(str => {
                 console.log(str)
             });
 
             returStr = "Senaste aktivitet<ul><li>"
-            returStr += logStrings[1]
-            returStr += "<li>" + logStrings[0]
+            // De två senaste noteringarna. Det ligger en tomrad på index "length-1"...
+            returStr += logStrings[(logStrings.length) - 3]
+            returStr += "<li>" + logStrings[(logStrings.length) - 2]
         }
-        return returStr
     })
 }
