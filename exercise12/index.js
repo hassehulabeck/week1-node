@@ -6,7 +6,6 @@ http.createServer(respond).listen(8080)
 
 
 function respond(req, res) {
-    let requestUrl = url.search
 
     // Hantera favicon
     if (req.url === '/favicon.ico') {

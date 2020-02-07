@@ -5,12 +5,13 @@ let eventEmitter = require('events')
 
 const loginEmitter = new eventEmitter()
 var inloggade = []
+let username = " "
 
 http.createServer(respond).listen(8080) // Publika sidan
 http.createServer(listUsers).listen(10000) // Adminsidan
 
 loginEmitter.on('login', (username) => {
-    listUsers()
+    // listUsers()
 })
 
 function listUsers(req, res) {
@@ -24,7 +25,6 @@ function listUsers(req, res) {
 
 
 function respond(req, res) {
-    let requestUrl = url.search
 
     // Hantera favicon
     if (req.url === '/favicon.ico') {
